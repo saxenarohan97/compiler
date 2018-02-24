@@ -355,7 +355,31 @@ tokenInfo getNextToken(FILE * fp)
 
             break;
 
-///////// Do states from 12 to 26
+            case 12:
+
+                if(isdigit(current))
+                    current = getNextChar(fp);
+
+                else if(current == '.')
+                {
+                    state = 13;
+                    current = getNextChar(fp);
+                }
+
+                else
+                {
+                    lexeme[--i] = '\0';
+
+                    temp.id = NUM;
+                    temp.lineNum = line;
+                    temp.lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp.lexeme, lexeme);
+
+                    return temp;
+                }
+
+            break;
 
             case 27:
 
@@ -410,7 +434,7 @@ int main()
 
     tokenInfo token;
 
-    for(i = 1; i <= 3; i++)
+    for(i = 1; i <= 5; i++)
     {
         token = getNextToken(fp);
         printf("%d \n", token.id);

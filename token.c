@@ -2,8 +2,13 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-
 #define LENGTH 128
+
+char * tokens[] = {"ASSIGNOP", "COMMENT", "FUNID", "ID", "NUM", "RNUM",
+"STR", "END", "INT", "REAL", "STRING", "MATRIX", "MAIN", "SQO", "SQC", "OP",
+"CL", "SEMICOLON", "COMMA", "IF", "ELSE", "ENDIF", "READ", "PRINT",
+"FUNCTION", "PLUS", "MINUS", "MUL", "DIV", "SIZE", "AND", "OR", "NOT", "LT",
+"LE", "EQ", "GT", "GE", "NE"};
 
 int line = 1;
 char current = '^';
@@ -381,6 +386,212 @@ tokenInfo getNextToken(FILE * fp)
 
             break;
 
+            case 13:
+
+                switch(current)
+                {
+                    case '0'...'9':
+                        state = 14;
+                        current = getNextChar(fp);
+                    break;
+
+                    case 'a':
+                        state = 16;
+                        current = getNextChar(fp);
+                    break;
+
+                    case 'o':
+                        state = 20;
+                        current = getNextChar(fp);
+                    break;
+
+                    case 'n':
+                        state = 23;
+                        current = getNextChar(fp);
+                    break;
+
+                    default:
+                        printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
+                        exit(0);
+                    break;
+                }
+
+            break;
+
+            case 14:
+
+                if(isdigit(current))
+                {
+                    state = 15;
+
+                    temp.id = RNUM;
+                    temp.lineNum = line;
+                    temp.lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp.lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
+                    exit(0);
+                }
+
+            break;
+
+            case 16:
+
+                if(current == 'n')
+                {
+                    state = 17;
+                    current = getNextChar(fp);
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .a%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
+            case 17:
+
+                if(current == 'd')
+                {
+                    state = 18;
+                    current = getNextChar(fp);
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .an%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
+            case 18:
+
+                if(current == '.')
+                {
+                    state = 19;
+
+                    temp.id = AND;
+                    temp.lineNum = line;
+                    temp.lexeme = NULL;
+
+                    current = '^';
+
+                    return temp;
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .and%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
+            case 20:
+
+                if(current == 'r')
+                {
+                    state = 21;
+                    current = getNextChar(fp);
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .o%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
+            case 21:
+
+                if(current == '.')
+                {
+                    state = 22;
+
+                    temp.id = OR;
+                    temp.lineNum = line;
+                    temp.lexeme = NULL;
+
+                    current = '^';
+
+                    return temp;
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .or%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
+            case 23:
+
+                if(current == 'o')
+                {
+                    state = 24;
+                    current = getNextChar(fp);
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .n%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
+            case 24:
+
+                if(current == 't')
+                {
+                    state = 25;
+                    current = getNextChar(fp);
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .no%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
+            case 25:
+
+                if(current == '.')
+                {
+                    state = 26;
+
+                    temp.id = NOT;
+                    temp.lineNum = line;
+                    temp.lexeme = NULL;
+
+                    current = '^';
+
+                    return temp;
+                }
+
+                else
+                {
+                    printf("Line number: %d, Lexical error: Unknown pattern .not%c \n", line, current);
+                    exit(0);
+                }
+
+            break;
+
             case 27:
 
                 if(islower(current))
@@ -404,6 +615,8 @@ tokenInfo getNextToken(FILE * fp)
 
                 else if(current == '"')
                 {
+                    state = 29;
+
                     temp.id = STR;
                     temp.lineNum = line;
                     temp.lexeme = malloc(strlen(lexeme) + 1);
@@ -422,22 +635,49 @@ tokenInfo getNextToken(FILE * fp)
                 }
 
             break;
+
+            case 45:
+
+                switch(current)
+                {
+                    case 'a':
+                        state = 16;
+                        current = getNextChar(fp);
+                    break;
+
+                    case 'o':
+                        state = 20;
+                        current = getNextChar(fp);
+                    break;
+
+                    case 'n':
+                        state = 23;
+                        current = getNextChar(fp);
+                    break;
+
+                    default:
+                        printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
+                        exit(0);
+                    break;
+                }
+
+            break;
         }
     }
 }
 
 int main()
 {
-    FILE * fp = fopen("testcases/test.txt", "r");
+    FILE * fp = fopen("testcases/testcase1.txt", "r");
 
     int i;
 
     tokenInfo token;
 
-    for(i = 1; i <= 5; i++)
+    for(i = 1; i <= 69; i++)
     {
         token = getNextToken(fp);
-        printf("%d \n", token.id);
+        printf("%s \n", tokens[token.id]);
 
         if(token.lexeme)
             printf("%s \n", token.lexeme);

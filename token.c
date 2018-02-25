@@ -932,7 +932,7 @@ tokenInfo * getNextToken(FILE * fp)
 
             case 27:
 
-                if(islower(current))
+                if(islower(current) || current == '\t' || current == ' ')
                 {
                     state = 28;
                     current = getNextChar(fp);
@@ -956,7 +956,7 @@ tokenInfo * getNextToken(FILE * fp)
 
             case 28:
 
-                if(islower(current))
+                if(islower(current) || current == '\t' || current == ' ')
                     current = getNextChar(fp);
 
                 else if(current == '"')
@@ -1041,7 +1041,7 @@ tokenInfo * getNextToken(FILE * fp)
 
 int main()
 {
-    FILE * fp = fopen("testcases/testcase1.txt", "r");
+    FILE * fp = fopen("testcases/test.txt", "r");
 
     int i;
 

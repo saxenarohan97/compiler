@@ -13,7 +13,7 @@ char * tokens[] = {"ASSIGNOP", "COMMENT", "FUNID", "ID", "NUM", "RNUM",
 int line = 1;
 char current = '^';
 
-tokenInfo getNextToken(FILE * fp)
+tokenInfo * getNextToken(FILE * fp)
 {
     int state = 1;
     int i = 0;
@@ -21,7 +21,7 @@ tokenInfo getNextToken(FILE * fp)
 
     memset(lexeme, '\0', LENGTH);
 
-    tokenInfo temp;
+    tokenInfo * temp = malloc(sizeof(tokenInfo));
 
     if(current == '^')
         current = getNextChar(fp);
@@ -34,6 +34,9 @@ tokenInfo getNextToken(FILE * fp)
         current = getNextChar(fp);
     }
 
+    if(current == '\0')
+        return NULL;
+
     while(1)
     {
         /* `current` has been read already before this – in the first iteration
@@ -44,7 +47,6 @@ tokenInfo getNextToken(FILE * fp)
 
         switch(state)
         {
-
             case 1:
 
                 switch(current)
@@ -83,9 +85,9 @@ tokenInfo getNextToken(FILE * fp)
                     case '[':
                         state = 30;
 
-                        temp.id = SQO;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = SQO;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -94,9 +96,9 @@ tokenInfo getNextToken(FILE * fp)
                     case ']':
                         state = 31;
 
-                        temp.id = SQC;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = SQC;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -105,9 +107,9 @@ tokenInfo getNextToken(FILE * fp)
                     case '(':
                         state = 32;
 
-                        temp.id = OP;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = OP;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -116,9 +118,9 @@ tokenInfo getNextToken(FILE * fp)
                     case ')':
                         state = 33;
 
-                        temp.id = CL;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = CL;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -127,9 +129,9 @@ tokenInfo getNextToken(FILE * fp)
                     case ';':
                         state = 34;
 
-                        temp.id = SEMICOLON;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = SEMICOLON;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -138,9 +140,9 @@ tokenInfo getNextToken(FILE * fp)
                     case ',':
                         state = 35;
 
-                        temp.id = COMMA;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = COMMA;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -149,9 +151,9 @@ tokenInfo getNextToken(FILE * fp)
                     case '+':
                         state = 36;
 
-                        temp.id = PLUS;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = PLUS;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -160,9 +162,9 @@ tokenInfo getNextToken(FILE * fp)
                     case '-':
                         state = 37;
 
-                        temp.id = MINUS;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = MINUS;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -171,9 +173,9 @@ tokenInfo getNextToken(FILE * fp)
                     case '*':
                         state = 38;
 
-                        temp.id = MUL;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = MUL;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -182,9 +184,9 @@ tokenInfo getNextToken(FILE * fp)
                     case '/':
                         state = 39;
 
-                        temp.id = DIV;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = DIV;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -193,9 +195,9 @@ tokenInfo getNextToken(FILE * fp)
                     case '@':
                         state = 40;
 
-                        temp.id = SIZE;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = SIZE;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -222,15 +224,14 @@ tokenInfo getNextToken(FILE * fp)
             break;
 
             case 2:
-
                 switch(current)
                 {
                     case '=':
                         state = 3;
 
-                        temp.id = EQ;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = EQ;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         current = '^';
 
@@ -245,9 +246,9 @@ tokenInfo getNextToken(FILE * fp)
                     default:
                         lexeme[--i] = '\0';
 
-                        temp.id = ASSIGNOP;
-                        temp.lexeme = NULL;
-                        temp.lineNum = line;
+                        temp->id = ASSIGNOP;
+                        temp->lexeme = NULL;
+                        temp->lineNum = line;
 
                         return temp;
                     break;
@@ -255,14 +256,13 @@ tokenInfo getNextToken(FILE * fp)
             break;
 
             case 4:
-
                 if(current == '=')
                 {
                     state = 5;
 
-                    temp.id = NE;
-                    temp.lexeme = NULL;
-                    temp.lineNum = line;
+                    temp->id = NE;
+                    temp->lexeme = NULL;
+                    temp->lineNum = line;
 
                     current = '^';
 
@@ -278,7 +278,6 @@ tokenInfo getNextToken(FILE * fp)
             break;
 
             case 8:
-
                 if(isalpha(current))
                 {
                     state = 9;
@@ -294,7 +293,6 @@ tokenInfo getNextToken(FILE * fp)
             break;
 
             case 9:
-
                 if(isalpha(current) || isdigit(current))
                     current = getNextChar(fp);
 
@@ -302,11 +300,21 @@ tokenInfo getNextToken(FILE * fp)
                 {
                     lexeme[--i] = '\0';
 
-                    temp.id = FUNID;
-                    temp.lineNum = line;
-                    temp.lexeme = malloc(strlen(lexeme) + 1);
+                    temp->lineNum = line;
 
-                    strcpy(temp.lexeme, lexeme);
+                    if(strcmp(lexeme, "_main") == 0)
+                    {
+                        temp->id = MAIN;
+                        temp->lexeme = NULL;
+                    }
+
+                    else
+                    {
+                        temp->id = FUNID;
+                        temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                        strcpy(temp->lexeme, lexeme);
+                    }
 
                     return temp;
                 }
@@ -314,7 +322,6 @@ tokenInfo getNextToken(FILE * fp)
             break;
 
             case 10:
-
                 if(isalpha(current))
                     current = getNextChar(fp);
 
@@ -328,11 +335,122 @@ tokenInfo getNextToken(FILE * fp)
                         exit(0);
                     }
 
-                    temp.id = ID;
-                    temp.lineNum = line;
-                    temp.lexeme = malloc(strlen(lexeme) + 1);
+                    temp->lineNum = line;
+                    temp->lexeme = NULL;
 
-                    strcpy(temp.lexeme, lexeme);
+                    int sum = 0;
+                    int j;
+
+                    for(j = 0; lexeme[j] != '\0'; j++)
+                        sum += lexeme[j];
+
+                    int flag = 0;
+
+                    switch(sum)
+                    {
+                        case 311:
+                            if(strcmp(lexeme, "end") == 0)
+                                temp->id = END;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 331:
+                            if(strcmp(lexeme, "int") == 0)
+                                temp->id = INT;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 420:
+                            if(strcmp(lexeme, "real") == 0)
+                                temp->id = REAL;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 663:
+                            if(strcmp(lexeme, "string") == 0)
+                                temp->id = STRING;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 661:
+                            if(strcmp(lexeme, "matrix") == 0)
+                                temp->id = MATRIX;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 207:
+                            if(strcmp(lexeme, "if") == 0)
+                                temp->id = IF;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 425:
+                            if(strcmp(lexeme, "else") == 0)
+                                temp->id = ELSE;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 518:
+                            if(strcmp(lexeme, "endif") == 0)
+                                temp->id = ENDIF;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 412:
+                            if(strcmp(lexeme, "read") == 0)
+                                temp->id = READ;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 557:
+                            if(strcmp(lexeme, "print") == 0)
+                                temp->id = PRINT;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 870:
+                            if(strcmp(lexeme, "function") == 0)
+                                temp->id = FUNCTION;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        default:
+                            temp->id = ID;
+                            temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                            strcpy(temp->lexeme, lexeme);
+                        break;
+                    }
+
+                    if(flag)
+                    {
+                        temp->id = ID;
+                        temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                        strcpy(temp->lexeme, lexeme);
+                    }
 
                     current = '^';
 
@@ -349,11 +467,122 @@ tokenInfo getNextToken(FILE * fp)
                         exit(0);
                     }
 
-                    temp.id = ID;
-                    temp.lineNum = line;
-                    temp.lexeme = malloc(strlen(lexeme) + 1);
+                    temp->lineNum = line;
+                    temp->lexeme = NULL;
 
-                    strcpy(temp.lexeme, lexeme);
+                    int sum = 0;
+                    int j;
+
+                    for(j = 0; lexeme[j] != '\0'; j++)
+                        sum += lexeme[j];
+
+                    int flag = 0;
+
+                    switch(sum)
+                    {
+                        case 311:
+                            if(strcmp(lexeme, "end") == 0)
+                                temp->id = END;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 331:
+                            if(strcmp(lexeme, "int") == 0)
+                                temp->id = INT;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 420:
+                            if(strcmp(lexeme, "real") == 0)
+                                temp->id = REAL;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 663:
+                            if(strcmp(lexeme, "string") == 0)
+                                temp->id = STRING;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 661:
+                            if(strcmp(lexeme, "matrix") == 0)
+                                temp->id = MATRIX;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 207:
+                            if(strcmp(lexeme, "if") == 0)
+                                temp->id = IF;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 425:
+                            if(strcmp(lexeme, "else") == 0)
+                                temp->id = ELSE;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 518:
+                            if(strcmp(lexeme, "endif") == 0)
+                                temp->id = ENDIF;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 412:
+                            if(strcmp(lexeme, "read") == 0)
+                                temp->id = READ;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 557:
+                            if(strcmp(lexeme, "print") == 0)
+                                temp->id = PRINT;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        case 870:
+                            if(strcmp(lexeme, "function") == 0)
+                                temp->id = FUNCTION;
+
+                            else
+                                flag = 1;
+                        break;
+
+                        default:
+                            temp->id = ID;
+                            temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                            strcpy(temp->lexeme, lexeme);
+                        break;
+                    }
+
+                    if(flag)
+                    {
+                        temp->id = ID;
+                        temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                        strcpy(temp->lexeme, lexeme);
+                    }
 
                     return temp;
                 }
@@ -375,11 +604,11 @@ tokenInfo getNextToken(FILE * fp)
                 {
                     lexeme[--i] = '\0';
 
-                    temp.id = NUM;
-                    temp.lineNum = line;
-                    temp.lexeme = malloc(strlen(lexeme) + 1);
+                    temp->id = NUM;
+                    temp->lineNum = line;
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
 
-                    strcpy(temp.lexeme, lexeme);
+                    strcpy(temp->lexeme, lexeme);
 
                     return temp;
                 }
@@ -424,11 +653,11 @@ tokenInfo getNextToken(FILE * fp)
                 {
                     state = 15;
 
-                    temp.id = RNUM;
-                    temp.lineNum = line;
-                    temp.lexeme = malloc(strlen(lexeme) + 1);
+                    temp->id = RNUM;
+                    temp->lineNum = line;
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
 
-                    strcpy(temp.lexeme, lexeme);
+                    strcpy(temp->lexeme, lexeme);
 
                     current = '^';
 
@@ -481,9 +710,9 @@ tokenInfo getNextToken(FILE * fp)
                 {
                     state = 19;
 
-                    temp.id = AND;
-                    temp.lineNum = line;
-                    temp.lexeme = NULL;
+                    temp->id = AND;
+                    temp->lineNum = line;
+                    temp->lexeme = NULL;
 
                     current = '^';
 
@@ -520,9 +749,9 @@ tokenInfo getNextToken(FILE * fp)
                 {
                     state = 22;
 
-                    temp.id = OR;
-                    temp.lineNum = line;
-                    temp.lexeme = NULL;
+                    temp->id = OR;
+                    temp->lineNum = line;
+                    temp->lexeme = NULL;
 
                     current = '^';
 
@@ -575,9 +804,9 @@ tokenInfo getNextToken(FILE * fp)
                 {
                     state = 26;
 
-                    temp.id = NOT;
-                    temp.lineNum = line;
-                    temp.lexeme = NULL;
+                    temp->id = NOT;
+                    temp->lineNum = line;
+                    temp->lexeme = NULL;
 
                     current = '^';
 
@@ -617,11 +846,17 @@ tokenInfo getNextToken(FILE * fp)
                 {
                     state = 29;
 
-                    temp.id = STR;
-                    temp.lineNum = line;
-                    temp.lexeme = malloc(strlen(lexeme) + 1);
+                    if(strlen(lexeme) > 20)
+                    {
+                        printf("Line number: %d, Lexical error: String is longer than the prescribed length \n", line);
+                        exit(0);
+                    }
 
-                    strcpy(temp.lexeme, lexeme);
+                    temp->id = STR;
+                    temp->lineNum = line;
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
 
                     current = '^';
 
@@ -672,15 +907,22 @@ int main()
 
     int i;
 
-    tokenInfo token;
+    tokenInfo * token;
 
-    for(i = 1; i <= 69; i++)
+    for(i = 1; i <= 70; i++)
     {
         token = getNextToken(fp);
-        printf("%s \n", tokens[token.id]);
 
-        if(token.lexeme)
-            printf("%s \n", token.lexeme);
+        if(!token)
+        {
+            printf("Reached end of file \n");
+            break;
+        }
+
+        printf("%d: %s ", token->lineNum, tokens[token->id]);
+
+        if(token->lexeme)
+            printf("Lexeme: %s \n", token->lexeme);
 
         printf("\n");
     }

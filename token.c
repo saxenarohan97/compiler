@@ -215,9 +215,14 @@ tokenInfo * getNextToken(FILE * fp)
 
                     default:
 
-                        lexeme[--i] = '\0';
-                        printf("Line number: %d, Lexical error: Unknown symbol %c \n", line, current);
-                        exit(0);
+                        temp->lineNum = line;
+                        temp->id = ERROR_SYMBOL;
+                        temp->lexeme = malloc(sizeof(char));
+                        temp->lexeme[0] = lexeme[0];
+
+                        current = '^';
+
+                        return temp;
 
                     break;
                 }
@@ -271,8 +276,15 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -286,8 +298,15 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -331,8 +350,13 @@ tokenInfo * getNextToken(FILE * fp)
 
                     if(strlen(lexeme) > 20)
                     {
-                        printf("Line number: %d, Lexical error: Identifier is longer than the prescribed length \n", line);
-                        exit(0);
+                        temp->lineNum = line;
+                        temp->id = ERROR_ID_LENGTH;
+                        temp->lexeme = NULL;
+
+                        current = '^';
+
+                        return temp;
                     }
 
                     temp->lineNum = line;
@@ -463,8 +487,13 @@ tokenInfo * getNextToken(FILE * fp)
 
                     if(strlen(lexeme) > 20)
                     {
-                        printf("Line number: %d, Lexical error: Identifier is longer than the prescribed length \n", line);
-                        exit(0);
+                        temp->lineNum = line;
+                        temp->id = ERROR_ID_LENGTH;
+                        temp->lexeme = NULL;
+
+                        current = '^';
+
+                        return temp;
                     }
 
                     temp->lineNum = line;
@@ -640,8 +669,16 @@ tokenInfo * getNextToken(FILE * fp)
                     break;
 
                     default:
-                        printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
-                        exit(0);
+                        temp->lineNum = line;
+                        temp->id = ERROR_PATTERN;
+
+                        temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                        strcpy(temp->lexeme, lexeme);
+
+                        current = '^';
+
+                        return temp;
                     break;
                 }
 
@@ -666,8 +703,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -682,8 +727,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .a%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -698,8 +751,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .an%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -721,8 +782,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .and%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -737,8 +806,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .o%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -760,8 +837,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .or%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -776,8 +861,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .n%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -792,8 +885,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .no%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -815,8 +916,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern .not%c \n", line, current);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -831,8 +940,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -848,8 +965,13 @@ tokenInfo * getNextToken(FILE * fp)
 
                     if(strlen(lexeme) > 20)
                     {
-                        printf("Line number: %d, Lexical error: String is longer than the prescribed length \n", line);
-                        exit(0);
+                        temp->lineNum = line;
+                        temp->id = ERROR_STR_LENGTH;
+                        temp->lexeme = NULL;
+
+                        current = '^';
+
+                        return temp;
                     }
 
                     temp->id = STR;
@@ -865,8 +987,16 @@ tokenInfo * getNextToken(FILE * fp)
 
                 else
                 {
-                    printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
-                    exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                 }
 
             break;
@@ -891,8 +1021,16 @@ tokenInfo * getNextToken(FILE * fp)
                     break;
 
                     default:
-                        printf("Line number: %d, Lexical error: Unknown pattern %s \n", line, lexeme);
-                        exit(0);
+                    temp->lineNum = line;
+                    temp->id = ERROR_PATTERN;
+
+                    temp->lexeme = malloc(strlen(lexeme) + 1);
+
+                    strcpy(temp->lexeme, lexeme);
+
+                    current = '^';
+
+                    return temp;
                     break;
                 }
 
@@ -909,7 +1047,7 @@ int main()
 
     tokenInfo * token;
 
-    for(i = 1; i <= 70; i++)
+    for(i = 1; i <= 75; i++)
     {
         token = getNextToken(fp);
 
@@ -919,10 +1057,25 @@ int main()
             break;
         }
 
-        printf("%d: %s ", token->lineNum, tokens[token->id]);
+        else if(token->id == ERROR_SYMBOL)
+            printf("Line number: %d, Lexical error: Unknown symbol %c \n", token->lineNum, token->lexeme[0]);
 
-        if(token->lexeme)
-            printf("Lexeme: %s \n", token->lexeme);
+        else if(token->id == ERROR_PATTERN)
+            printf("Line number: %d, Lexical error: Unknown pattern %s \n", token->lineNum, token->lexeme);
+
+        else if(token->id == ERROR_ID_LENGTH)
+            printf("Line number: %d, Lexical error: Identifier is longer than the prescribed length \n", token->lineNum);
+
+        else if(token->id == ERROR_STR_LENGTH)
+            printf("Line number: %d, Lexical error: String is longer than the prescribed length \n", token->lineNum);
+
+        else
+        {
+            printf("%d: %s ", token->lineNum, tokens[token->id]);
+
+            if(token->lexeme)
+                printf("Lexeme: %s \n", token->lexeme);
+        }
 
         printf("\n");
     }

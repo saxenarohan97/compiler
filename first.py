@@ -59,4 +59,11 @@ def first(x):
     return first_set
 
 
-# first('remainingList')
+# for n in nonTerms:
+#     print(n, "->", end=' ')
+#
+#     for f in first(n):
+#
+#         print(f, end=' ')
+#
+#     print()

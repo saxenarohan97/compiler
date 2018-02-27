@@ -154,7 +154,7 @@ void print_lexeme(token id)
     printf("%s \n", lexeme);
 }
 
-int main()
+int main(int argc, char * argv[])
 {
     int choice;
 
@@ -167,7 +167,7 @@ int main()
 
     scanf("%d", &choice);
 
-    FILE * input = fopen("testcases/test.txt", "r");
+    FILE * input = fopen(argv[1], "r");
 
     switch(choice)
     {

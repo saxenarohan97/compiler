@@ -1,16 +1,10 @@
-/* NOTE: Have a look at linkedlist.h to see what each method does
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
-#include "parser.h"
-
-extern char * terms[];
 
 void printNode(Node * node)
 {
-	printf("%s", terms[node->id - 1]);
+	printf("%d", node->id);
 }
 
 void printList(Node * top)

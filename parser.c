@@ -219,15 +219,15 @@ void parseInputSourceCode(FILE * fp)
 }
 
 
-int main()
-{
-    createParseTable();
-
-    FILE * input = fopen("testcases/testcase1.txt", "r");
-
-    parseInputSourceCode(input);
-
-    fclose(input);
-
-    return 0;
-}
+// int main()
+// {
+//     createParseTable();
+//
+//     FILE * input = fopen("testcases/testcase1.txt", "r");
+//
+//     parseInputSourceCode(input);
+//
+//     fclose(input);
+//
+//     return 0;
+// }

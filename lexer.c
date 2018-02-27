@@ -114,6 +114,11 @@ tokenInfo * getNextToken(FILE * fp)
                         current = getNextChar(fp);
                     break;
 
+                    case '#':
+                        state = 6;
+                        current = getNextChar(fp);
+                    break;
+
                     case '_':
                         state = 8;
                         current = getNextChar(fp);
@@ -343,6 +348,20 @@ tokenInfo * getNextToken(FILE * fp)
                     current = '^';
 
                     return temp;
+                }
+
+            break;
+
+            case 6:
+
+                if(current != '\n' && current != '\r')
+                    current = getNextChar(fp);
+
+                else
+                {
+                    state = 1;
+                    current = getNextChar(fp);
+                    line++;
                 }
 
             break;

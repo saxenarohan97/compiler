@@ -181,12 +181,6 @@ int main(int argc, char * argv[])
             printf("Code without comments: \n\n");
 
             printf("%s", output);
-
-            FILE * fout = fopen("code_without_comments.txt", "w");
-
-            fprintf(fout, "%s", output);
-
-            fclose(fout);
         }
         break;
 

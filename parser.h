@@ -1,5 +1,8 @@
-#include <stdio.h>
-#include <string.h>
+void createParseTable();
+
+void parseInputSourceCode();
+
+// Used for mapping:
 
 char * terms[] = {
     "arithmeticExpression",
@@ -87,60 +90,3 @@ char * terms[] = {
     "STR",
     "STRING"
 };
-
-
-int main()
-{
-    char buffer[128];
-    int final[86][64];
-
-    int j = 0, k = 0;
-
-    for(j = 0; j < 86; j++)
-    {
-        for(k = 0; k < 64; k++)
-            final[j][k] = 0;
-    }
-
-    FILE * fp = fopen("rule_first", "r");
-    FILE * output = fopen("encoded_rule_first", "w");
-
-    char c;
-
-    j = k = 0;
-
-    while(fscanf(fp, "%s%c", buffer, &c) == 2)
-    {
-        if(strcmp(buffer, "->") == 0)
-            continue;
-
-        int i = 0;
-
-        for(i = 0; i < 84; i++)
-        {
-            if(strcmp(terms[i], buffer) == 0)
-                break;
-        }
-
-        final[j][k++] = i + 1;
-
-        if(c == '\n')
-        {
-            j++;
-            k = 0;
-        }
-    }
-
-    for(j = 0; j < 86; j++)
-    {
-        for(k = 0; final[j][k] != 0; k++)
-            fprintf(output, "%d ", final[j][k]);
-
-        fprintf(output, "\n");
-    }
-
-    fclose(fp);
-    fclose(output);
-
-    return 0;
-}

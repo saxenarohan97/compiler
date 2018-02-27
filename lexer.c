@@ -1021,7 +1021,7 @@ tokenInfo * getNextToken(FILE * fp)
                 {
                     state = 29;
 
-                    if(strlen(lexeme) > 20)
+                    if(strlen(lexeme) > 22)
                     {
                         temp->lineNum = line;
                         temp->id = ERROR_STR_LENGTH;

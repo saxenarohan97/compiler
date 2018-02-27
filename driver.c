@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "parser.h"
 #include <string.h>
 
 char * tokens[] = {"ASSIGNOP", "COMMENT", "FUNID", "ID", "NUM", "RNUM",
@@ -160,11 +161,13 @@ int main()
     printf("Do you want to: \n");
     printf("1. Remove comments \n");
     printf("2. Get tokens \n");
+    printf("3. Generate parse table \n");
+    printf("Note: remove comments (via option 1) before passing the file to lexer! \n");
     printf("Please enter your choice: ");
 
     scanf("%d", &choice);
 
-    FILE * input = fopen("testcases/testcase1.txt", "r");
+    FILE * input = fopen("testcases/test.txt", "r");
 
     switch(choice)
     {
@@ -178,6 +181,12 @@ int main()
             printf("Code without comments: \n\n");
 
             printf("%s", output);
+
+            FILE * fout = fopen("code_without_comments.txt", "w");
+
+            fprintf(fout, "%s", output);
+
+            fclose(fout);
         }
         break;
 
@@ -224,13 +233,15 @@ int main()
         break;
 
         case 3:
-
+            createParseTable();
         break;
 
         default:
             printf("Incorrect choice entered");
         break;
     }
+
+    fclose(input);
 
     return 0;
 }

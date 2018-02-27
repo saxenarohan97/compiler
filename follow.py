@@ -1,5 +1,4 @@
 import first
-import sys
 
 
 def isNonTerminal(x):
@@ -52,21 +51,12 @@ def follow(x):
     return follow_set
 
 
-result = list(follow('assignmentStmt_type1'))
-result.sort()
+for n in first.nonTerms:
 
-print(result)
+    print(n, "->", end=' ')
 
+    for f in follow(n):
 
-# print(first.nonTerms, end='\n\n')
-#
-# for n in first.nonTerms:
-#     print(n, "->", end=' ')
-#
-#     stack.append([n, set()])
-#
-#     for f in follow():
-#
-#         print(f, end=' ')
-#
-#     print()
+        print(f, end=' ')
+
+    print()

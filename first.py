@@ -8,7 +8,7 @@ def isTerminal(x):
 
 rules = []
 
-with open('./code/grammar', 'r') as file:
+with open('grammar', 'r') as file:
     rules = file.readlines()
 
 rules = [x[:-1] for x in rules if x != '\n']
@@ -59,10 +59,50 @@ def first(x):
     return first_set
 
 
+def rule_first(rule):
+
+    first_set = set()
+
+    i = 2
+    temp = first(rule.split(' ')[i])
+
+    first_set = first_set.union(temp)
+
+    while 'EPSILON' in temp and i + 1 < len(rule.split(' ')):
+
+        i += 1
+
+        temp = rule.split(' ')[i]
+        temp = first(temp)
+
+        first_set = first_set.union(temp)
+
+    if 'EPSILON' not in temp and 'EPSILON' in first_set:
+        first_set.remove('EPSILON')
+
+    return first_set
+
+
+for n in nonTerms:
+    print('"' + n + '", ')
+
+
 # for n in nonTerms:
+#
 #     print(n, "->", end=' ')
 #
 #     for f in first(n):
+#
+#         print(f, end=' ')
+#
+#     print()
+
+
+# for rule in rules:
+#
+#     print(rule.split(' ')[0], "->", end=' ')
+#
+#     for f in rule_first(rule):
 #
 #         print(f, end=' ')
 #

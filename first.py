@@ -83,10 +83,6 @@ def rule_first(rule):
     return first_set
 
 
-for n in nonTerms:
-    print('"' + n + '", ')
-
-
 # for n in nonTerms:
 #
 #     print(n, "->", end=' ')
@@ -97,7 +93,7 @@ for n in nonTerms:
 #
 #     print()
 
-
+#
 # for rule in rules:
 #
 #     print(rule.split(' ')[0], "->", end=' ')

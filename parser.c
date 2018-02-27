@@ -9,7 +9,7 @@ int table[44][39];
 
 int grammar[86][17];
 int first[86][17];
-int follow[43][17];
+int follow[44][17];
 
 char c;
 
@@ -26,7 +26,7 @@ void createParseTable()
         }
     }
 
-    for(i = 0; i < 43; i++)
+    for(i = 0; i < 44; i++)
     {
         for(j = 0; j < 17; j++)
             follow[i][j] = 0;
@@ -79,16 +79,19 @@ void createParseTable()
         if(c == '\n')
         {
             i++;
+
+            if(i == 18)
+                i++;
+
             j = 0;
         }
     }
 
     fclose(ffollow);
 
-
     for(i = 0; i < 86; i++)
     {
-        int k, terminal, nonTerminal;
+        int terminal, nonTerminal, flag = 0;
 
         nonTerminal = grammar[i][0] - 1;
 
@@ -96,13 +99,32 @@ void createParseTable()
         {
             terminal = first[i][j] - 45;
 
+            if(terminal == 8)
+                flag = 1;
+
             if(table[nonTerminal][terminal] != 0)
             {
-                printf("%d: ", i + 1);
-                printf("NT: %d, T: %d \n", nonTerminal, terminal);
+                printf("Here %d: ", i + 1);
+                printf("NT: %s, T: %s \n", terms[nonTerminal], terms[terminal + 44]);
             }
 
             table[nonTerminal][terminal] = i + 1;
+        }
+
+        if(flag)
+        {
+            for(j = 1; follow[nonTerminal][j] != 0; j++)
+            {
+                terminal = follow[nonTerminal][j] - 45;
+
+                if(table[nonTerminal][terminal] != 0)
+                {
+                    printf("%d: ", i + 1);
+                    printf("NT: %d, T: %d \n", nonTerminal, terminal);
+                }
+
+                table[nonTerminal][terminal] = i + 1;
+            }
         }
     }
 
@@ -130,6 +152,12 @@ void parseInputSourceCode(FILE * fp)
 
     while(token)
     {
+        if(top->id == 53)
+        {
+            pop(&top);
+            continue;
+        }
+
         int terminal = (token->id) + 44;
 
         if(terminal > 82)

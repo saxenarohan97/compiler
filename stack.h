@@ -14,7 +14,7 @@ void printNode(Node * node);
 void push(Node ** top, int element);
 
 // Deletes the first element of stack and returns pointer to the deleted node
-Node * pop(Node ** top);
+void pop(Node ** top);
 
 // prints all the elements in stack
 void printList (Node * top);

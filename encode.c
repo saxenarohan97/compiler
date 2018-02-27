@@ -92,18 +92,18 @@ char * terms[] = {
 int main()
 {
     char buffer[128];
-    int final[86][64];
+    int final[43][64];
 
     int j = 0, k = 0;
 
-    for(j = 0; j < 86; j++)
+    for(j = 0; j < 43; j++)
     {
         for(k = 0; k < 64; k++)
             final[j][k] = 0;
     }
 
-    FILE * fp = fopen("rule_first", "r");
-    FILE * output = fopen("encoded_rule_first", "w");
+    FILE * fp = fopen("follow.txt", "r");
+    FILE * output = fopen("encoded_follow", "w");
 
     char c;
 
@@ -131,7 +131,7 @@ int main()
         }
     }
 
-    for(j = 0; j < 86; j++)
+    for(j = 0; j < 43; j++)
     {
         for(k = 0; final[j][k] != 0; k++)
             fprintf(output, "%d ", final[j][k]);

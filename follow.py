@@ -51,7 +51,11 @@ def follow(x):
     return follow_set
 
 
-for n in first.nonTerms:
+a = list(first.nonTerms)
+a.sort()
+
+
+for n in a:
 
     print(n, "->", end=' ')
 

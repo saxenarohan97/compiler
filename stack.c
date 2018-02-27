@@ -20,7 +20,7 @@ void printList(Node * top)
 	for(temp = top; temp!=NULL; temp=temp->next)
 	{
 		printNode(temp);
-		printf("\t");
+		printf(" ");
 	}
 
 	if (!top)
@@ -44,14 +44,14 @@ void push(Node ** top, int element)
 	(*top) = newNode;
 }
 
-Node * pop(Node ** top)
+void pop(Node ** top)
 {
 	Node * deletedElement = *top;
 
 	if (deletedElement)
 		*top = (*top)->next;
 
-	return deletedElement;
+	free(deletedElement);
 }
 
 // int main()
